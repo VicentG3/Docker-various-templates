@@ -1,0 +1,53 @@
+version: "3.3"
+services:
+    mariadb:
+        image: mariadb
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: projectdb
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test123
+        ports: 
+        - "3306:3306"
+        volumes:
+        - mariadbdata:/var/lib/mysql
+
+    www1:
+        build: ./apachesql
+        ports: 
+            - "81:80"
+        volumes:
+            - /home/admin/web1:/var/www/html
+
+    www2:
+        build: ./apachesql
+        ports: 
+            - "82:80"
+        volumes:
+            - /home/admin/web2:/var/www/html
+
+    www3:
+        build: ./apachesql
+        ports: 
+            - "83:80"
+        volumes:
+            - /home/admin/web3:/var/www/html
+    
+    nginx:
+        build: ./nginxloadbalancer
+        ports:
+            - "80:80"
+ 
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=mariadb
+            - PMA_USER=root
+            - PMA_PASSWORD=password
+        ports:
+            - 84:80
+volumes:
+    mariadbdata:
+
