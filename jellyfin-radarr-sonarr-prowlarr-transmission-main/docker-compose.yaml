@@ -13,7 +13,7 @@ services:
       - jellyconf:/config
       - /routet/to:/data
     devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/renderD128:/dev/dri/renderD128 #Only use this for quicksync encoding (Hardware encoding)
     ports:
       - 8096:8096
       - 7359:7359/udp #optional
